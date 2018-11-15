@@ -23,7 +23,7 @@ def decompose(H):
     sz = np.array([[1, 0],  [0, -1]], dtype=np.complex128)
     id = np.array([[1, 0],  [ 0, 1]], dtype=np.complex128)
     S = [id, sx, sy, sz]
-    labels = ['I', 'sigma_x', 'sigma_y', 'sigma_z']
+    labels = ['\sigma_0', '\sigma_x', '\sigma_y', '\sigma_z']
     for i in range(0,4):
         for j in range(0,4):
             for k in range(0,4):
@@ -32,6 +32,6 @@ def decompose(H):
                 if a_ij != 0.0:
                     print ("%s\t*\t( %s )" % (c2s(a_ij), label))
 
-H = [(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0)
+H = [(1,0,0,0,0,0,0,0),(0,1,0,0,0,0,0,0),(0,0,1,0,0,0,0,0),(0,0,0,1,0,0,0,0),(0,0,0,0,1,0,0,0),(0,0,0,0,0,1,0,0)
     ,(0,0,0,0,0,0,0,1),(0,0,0,0,0,0,1,0)]
 decompose(H)
