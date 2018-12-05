@@ -23,7 +23,10 @@ temp = []
 
 full_opt_freq = []
 
-x0 = [3,3,3,3]
+x0 = [3,4,5,6]
+
+idArray = []
+strArray = []
 
 ########################################Contraint Functions########################################
 def constraint1(x):
@@ -40,7 +43,7 @@ def constraint2(x):
     two_min = min(two_body_opt(x))
     three_min = min(three_body_opt(x))
     
-    if two_min>three_min:
+    if two_min > three_min:
         return three_min - 1
     else:
         return two_min - 1
@@ -145,9 +148,9 @@ con2 = {'type' : 'ineq' , 'fun' : constraint2}
 
 cons = [con1,con2]
 
-for i in range(0,7):
-    for j in range(0,7):
-        for k in range(0,7):
+for i in range(0,1):
+    for j in range(0,1):
+        for k in range(0,1):
             for l in range(0,7):
                 x = [x0[0] + i,x0[1] + j , x0[2] + k,x0[3] + l]
                 if(x[1] != x[0] and x[2] != x[3]):
@@ -165,6 +168,9 @@ of what the best solution to this is. Potentially we could include the strengths
 
 
 ########################################Printing out the data########################################
+
+
+#This part can search through the database to find the params which would porcuce the freq's whichn are required
 with open('Frequency_Data.txt') as f:
     for line in f:
         line = line.strip().split()
@@ -173,6 +179,23 @@ with open('Frequency_Data.txt') as f:
         Josephson_Energy.append(float(line[0]))
         Strength.append(float(line[3]))
 
+
+for i in opt_freq:
+    temp = []
+    temp.append(np.abs(frequencies - i[0]).argmin())
+    temp.append(np.abs(frequencies - i[1]).argmin())
+    temp.append(np.abs(frequencies - i[2]).argmin())
+    temp.append(np.abs(frequencies - i[3]).argmin())
+    idArray.append(temp)
+
+idFile = open("idFile.txt","w")
+
+for i in idArray:
+    strArray.append(Strength[i[0]] * Strength[i[1]] * Strength[i[2]] * Strength[i[3]])
+    idFile.write(str(i[0]) + " " + str(i[1]) + " " + str(i[2]) + " " + str(i[3]) + "\n")
+
+
+'''
 for i in opt_freq:
     Index0 = [k for k, _ in enumerate(frequencies) if np.isclose(_, i[0], 0.001)]
     Index1 = [k for k, _ in enumerate(frequencies) if np.isclose(_, i[1], 0.001)]
@@ -198,3 +221,5 @@ for i in opt_freq:
         for j in range(0,len(Index3)):
             f.write("\t" + str(Capaticance[Index3[j]]) + " "
                     + str(Josephson_Energy[Index3[j]]) + " " + str(frequencies[Index3[j]])+ " " + str(Strength[Index3[j]]) + "\n")
+
+'''
